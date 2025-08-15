@@ -33,4 +33,7 @@ build/
 .vscode/
 
 ### Properties ###
-application-test.properties
+src/test/resources/application-test.properties
+
+###.venv###
+.venv
