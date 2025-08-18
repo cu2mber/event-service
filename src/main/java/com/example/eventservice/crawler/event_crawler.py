@@ -31,7 +31,6 @@ class EventCrawler:
         # 페이지가 완전히 로딩되도록 3초동안 기다림
         time.sleep(3)
 
-        # 목록에 있는 축제 클릭
         start_event = driver.find_element(By.CLASS_NAME, ".go")
         start_event.click()
 
