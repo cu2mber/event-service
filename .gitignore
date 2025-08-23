@@ -39,4 +39,8 @@ src/test/resources/application-test.properties
 ###.venv###
 .venv
 
+###.env###
 .env
+
+### sample-data.sql ###
+src/main/resources/sample-data.sql
