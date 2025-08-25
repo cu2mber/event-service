@@ -44,3 +44,6 @@ src/test/resources/application-test.properties
 
 ### sample-data.sql ###
 src/main/resources/sample-data.sql
+
+### libs ###
+libs/

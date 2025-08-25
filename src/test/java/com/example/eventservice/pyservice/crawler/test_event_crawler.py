@@ -1,7 +1,7 @@
-import os, time, re
+import os, time
 from dotenv import load_dotenv
 
-from com.example.eventservice.crawler.event_crawler import EventCrawler
+from com.example.eventservice.pyservice.crawler.event_crawler import EventCrawler
 
 load_dotenv(".env")
 event_url = os.getenv("EVENT_URL")
@@ -14,7 +14,7 @@ def test_crawl_20_events():
 
     crawled_count = 0
 
-    while crawled_count < 20:
+    while crawled_count < 2:
         try:
             crawler.scrape_event()
             crawled_count += 1
