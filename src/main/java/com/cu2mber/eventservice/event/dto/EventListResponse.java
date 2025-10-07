@@ -1,5 +1,6 @@
 package com.cu2mber.eventservice.event.dto;
 
+import com.cu2mber.eventservice.event.domain.Event;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,6 +12,7 @@ import java.time.LocalTime;
 public class EventListResponse {
     private Long eventNo;
     private Short localNo;
+    private Long categoryNo;
     private String eventTitle;
     private String eventAddress;
     private LocalDate eventStartDate;
@@ -18,4 +20,19 @@ public class EventListResponse {
     private LocalTime eventStartTime;
     private LocalTime eventEndTime;
     private String eventInquiry;
+
+    public static EventListResponse from(Event event){
+        return new EventListResponse(
+                event.getEventNo(),
+                event.getLocalNo(),
+                event.getCategoryNo(),
+                event.getEventTitle(),
+                event.getEventAddress(),
+                event.getEventStartDate(),
+                event.getEventEndDate(),
+                event.getEventStartTime(),
+                event.getEventEndTime(),
+                event.getEventInquiry()
+        );
+    }
 }

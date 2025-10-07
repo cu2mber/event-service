@@ -3,7 +3,10 @@ package com.cu2mber.eventservice.event.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -54,6 +57,10 @@ public class Event {
 
     @Column(columnDefinition = "TEXT")
     private String eventDescription;
+
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     public Event(Short localNo, Long categoryNo, String eventTitle,
                  String eventAddress, LocalDate eventStartDate, LocalDate eventEndDate,
