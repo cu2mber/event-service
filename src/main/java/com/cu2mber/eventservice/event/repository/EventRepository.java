@@ -1,11 +1,14 @@
 package com.cu2mber.eventservice.event.repository;
 
 import com.cu2mber.eventservice.event.domain.Event;
+import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
 
 /**
  * {@code EventRepository}는 행사(Event) 엔티티에 대한 데이터 접근 기능을 제공합니다.
@@ -22,7 +25,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @param pageable 페이징 및 정렬 정보를 포함한 {@link Pageable} 객체
      * @return {@link Event} 엔티티 목록이 포함된 {@link Page}
      */
-    Page<Event> findAllByEventNo(Pageable pageable);
+    @NonNull
+    Page<Event> findAll(@NonNull Pageable pageable);
 
     /**
      * 행사 제목에 특정 키워드가 포함된 축제 목록을 페이지 단위로 조회합니다.
@@ -35,7 +39,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @return 조건에 맞는 {@link Event} 목록이 포함된 {@link Page}
      */
     @Query("SELECT e FROM Event e WHERE e.eventTitle LIKE %:keyword%")
-    Page<Event> findEventsByEventTitleContaining(@Param("keyword")String keyword, Pageable pageable);
+    Page<Event> findByEventTitleContaining(@Param("keyword")String keyword, Pageable pageable);
 
     /**
      * 특정 카테고리 번호에 속하는 행사 목록을 페이지 단위로 조회합니다.
@@ -52,5 +56,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @param eventNo 행사 고유 번호
      * @return 해당 번호에 해당하는 {@link Event} 엔티티, 존재하지 않으면 {@code null}
      */
-    Event findByEventNo(Long eventNo);
+    Optional<Event> findByEventNo(Long eventNo);
 }

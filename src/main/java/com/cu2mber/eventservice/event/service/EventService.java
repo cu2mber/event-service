@@ -1,5 +1,6 @@
 package com.cu2mber.eventservice.event.service;
 
+import com.cu2mber.eventservice.event.dto.EventDetailResponse;
 import com.cu2mber.eventservice.event.dto.EventListResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,8 +50,8 @@ public interface EventService {
      * 행사 고유 번호(eventNo)를 기준으로 단일 축제 상세 정보를 조회합니다.
      *
      * @param eventNo 축제 고유 번호
-     * @return 해당 번호에 해당하는 {@link EventListResponse} DTO, 존재하지 않으면 {@code null}
+     * @return 해당 번호에 해당하는 {@link EventDetailResponse} DTO, 존재하지 않으면 {@code null}
      */
-    EventListResponse getEventDetail(Long eventNo);
+    EventDetailResponse getEventDetail(Long eventNo);
 
 }
