@@ -26,7 +26,7 @@ public interface EventService {
     Page<EventListResponse> getAllEvents(Pageable pageable);
 
     /**
-     * 행사 제목에 특정 키워드가 포함된 축제 목록을 페이지 단위로 조회합니다.
+     * 행사 제목에 특정 키워드가 포함된 행사 목록을 페이지 단위로 조회합니다.
      * <p>
      * 부분 일치 검색(contains) 방식으로 제목을 필터링합니다.
      * </p>
@@ -38,7 +38,7 @@ public interface EventService {
     Page<EventListResponse> searchEventsByTitle(String keyword, Pageable pageable);
 
     /**
-     * 특정 카테고리에 속한 축제(행사) 목록을 페이지 단위로 조회합니다.
+     * 특정 카테고리에 속한 행사 목록을 페이지 단위로 조회합니다.
      *
      * @param categoryNo 카테고리 번호
      * @param pageable   페이징 및 정렬 정보를 포함한 {@link Pageable} 객체
@@ -47,7 +47,7 @@ public interface EventService {
     Page<EventListResponse> getEventsByCategory(Long categoryNo, Pageable pageable);
 
     /**
-     * 행사 고유 번호(eventNo)를 기준으로 단일 축제 상세 정보를 조회합니다.
+     * 행사 고유 번호(eventNo)를 기준으로 단일 행사 상세 정보를 조회합니다.
      *
      * @param eventNo 축제 고유 번호
      * @return 해당 번호에 해당하는 {@link EventDetailResponse} DTO, 존재하지 않으면 {@code null}
