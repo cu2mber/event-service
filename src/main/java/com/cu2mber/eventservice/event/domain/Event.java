@@ -1,5 +1,7 @@
 package com.cu2mber.eventservice.event.domain;
 
+import com.cu2mber.eventservice.category.domain.Category;
+import com.cu2mber.eventservice.localgov.domain.LocalGov;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,12 +32,18 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eventNo; // bigint
 
-    private Short localNo; // smallint
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "local_no", nullable = false)
+    private LocalGov localNo; // smallint
 
-    private Long categoryNo; // bigint
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_no", nullable = false)
+    private Category categoryNo; // bigint
 
+    @Column(length = 255, nullable = false)
     private String eventTitle;
 
+    @Column(length = 255)
     private String eventAddress;
 
     private LocalDate eventStartDate;
@@ -46,24 +54,29 @@ public class Event {
 
     private LocalTime eventEndTime;
 
+    @Column(columnDefinition = "TEXT")
     private String eventUrl;
 
+    @Column(length = 50)
     private String eventSpot;
 
-    private String eventFee;
-
+    @Column(length = 50)
     private String eventHost;
 
+    @Column(length = 50)
     private String eventInquiry;
 
+    @Column(columnDefinition = "TEXT")
     private String eventDescription;
 
+    @Column(nullable = false, updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
-    public Event(Short localNo, Long categoryNo, String eventTitle,
+    public Event(LocalGov localNo, Category categoryNo, String eventTitle,
                  String eventAddress, LocalDate eventStartDate, LocalDate eventEndDate,
                  LocalTime eventStartTime, LocalTime eventEndTime, String eventUrl,
-                 String eventSpot, String eventFee, String eventHost,
+                 String eventSpot, String eventHost,
                  String eventInquiry, String eventDescription) {
         this.localNo = localNo;
         this.categoryNo = categoryNo;
@@ -75,9 +88,9 @@ public class Event {
         this.eventEndTime = eventEndTime;
         this.eventUrl = eventUrl;
         this.eventSpot = eventSpot;
-        this.eventFee = eventFee;
         this.eventHost = eventHost;
         this.eventInquiry = eventInquiry;
         this.eventDescription = eventDescription;
     }
+
 }
