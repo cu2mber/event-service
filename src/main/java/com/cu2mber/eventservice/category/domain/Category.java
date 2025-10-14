@@ -27,9 +27,6 @@ public class Category {
 
     private String categoryName;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-    private List<Event> events = new ArrayList<>();
-
     public Category(String categoryName){
         this.categoryName = categoryName;
     }

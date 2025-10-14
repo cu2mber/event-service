@@ -34,11 +34,11 @@ public class Event {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "local_no", nullable = false)
-    private LocalGov localNo; // smallint
+    private LocalGov localGov; // smallint
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_no", nullable = false)
-    private Category categoryNo; // bigint
+    private Category category; // bigint
 
     @Column(length = 255, nullable = false)
     private String eventTitle;
@@ -73,13 +73,13 @@ public class Event {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    public Event(LocalGov localNo, Category categoryNo, String eventTitle,
+    public Event(LocalGov localGov, Category category, String eventTitle,
                  String eventAddress, LocalDate eventStartDate, LocalDate eventEndDate,
                  LocalTime eventStartTime, LocalTime eventEndTime, String eventUrl,
                  String eventSpot, String eventHost,
                  String eventInquiry, String eventDescription) {
-        this.localNo = localNo;
-        this.categoryNo = categoryNo;
+        this.localGov = localGov;
+        this.category = category;
         this.eventTitle = eventTitle;
         this.eventAddress = eventAddress;
         this.eventStartDate = eventStartDate;

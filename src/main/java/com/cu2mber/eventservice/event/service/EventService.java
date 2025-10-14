@@ -40,11 +40,11 @@ public interface EventService {
     /**
      * 특정 카테고리에 속한 행사 목록을 페이지 단위로 조회합니다.
      *
-     * @param categoryNo 카테고리 번호
+     * @param categoryName 카테고리명
      * @param pageable   페이징 및 정렬 정보를 포함한 {@link Pageable} 객체
      * @return 해당 카테고리에 속한 {@link EventListResponse} DTO 목록이 포함된 {@link Page}
      */
-    Page<EventListResponse> getEventsByCategory(Long categoryNo, Pageable pageable);
+    Page<EventListResponse> getEventsByCategory(String categoryName, Pageable pageable);
 
     /**
      * 행사 고유 번호(eventNo)를 기준으로 단일 행사 상세 정보를 조회합니다.

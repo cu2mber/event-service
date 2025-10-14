@@ -1,5 +1,7 @@
 package com.cu2mber.eventservice.event.service.impl;
 
+import com.cu2mber.eventservice.category.domain.Category;
+import com.cu2mber.eventservice.category.repository.CategoryRepository;
 import com.cu2mber.eventservice.event.dto.EventDetailResponse;
 import com.cu2mber.eventservice.event.dto.EventListResponse;
 import com.cu2mber.eventservice.event.repository.EventRepository;
@@ -28,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
+    private final CategoryRepository categoryRepository;
 
     /**
      * 전체 행사 목록을 페이지 단위로 조회합니다.
@@ -63,15 +66,17 @@ public class EventServiceImpl implements EventService {
         Page<EventListResponse> results = eventRepository.findByEventTitleContaining(keyword, pageable)
                 .map(EventListResponse::from);
 
-        log.info("[searchEventsByTitle] 검색 결과 개수: {}", results.getTotalElements());
+        log.info("[searchEventsByTitle] 검색 결과 개수 : {}", results.getTotalElements());
         return results;
     }
 
     @Override
-    public Page<EventListResponse> getEventsByCategory(Long categoryNo, Pageable pageable) {
-        log.info("[getEventsByCategory] 카테고리별 행사 조회 요청 - categoryNo: {}", categoryNo);
+    public Page<EventListResponse> getEventsByCategory(String categoryName, Pageable pageable) {
+        Category category = categoryRepository.findByCategoryName(categoryName);
 
-        Page<EventListResponse> results = eventRepository.findByCategoryNo(categoryNo, pageable)
+        log.info("[getEventsByCategory] 특정 카테고리 검색 : {}", category);
+
+        Page<EventListResponse> results = eventRepository.findByCategory_CategoryNo(category.getCategoryNo(), pageable)
                 .map(EventListResponse::from);
 
         log.info("[getEventsByCategory] 조회된 행사 개수: {}", results.getTotalElements());

@@ -5,9 +5,10 @@ import com.cu2mber.eventservice.category.repository.CategoryRepository;
 import com.cu2mber.eventservice.event.domain.Event;
 import com.cu2mber.eventservice.localgov.domain.LocalGov;
 import com.cu2mber.eventservice.localgov.repository.LocalGovRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
@@ -16,12 +17,12 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@Slf4j
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("test")
 class EventRepositoryTest {
 
@@ -34,8 +35,8 @@ class EventRepositoryTest {
     @Autowired
     private LocalGovRepository localGovRepository;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    void setUpOnce() {
         Category category1 = categoryRepository.save(new Category("문화생활"));
         Category category2 = categoryRepository.save(new Category("체험"));
 
@@ -73,6 +74,7 @@ class EventRepositoryTest {
     @DisplayName("행사명으로 조회 테스트")
     void findByEventTitleContaining() {
         var results = eventRepository.findByEventTitleContaining("서울", Pageable.ofSize(2));
+
         assertThat(results).hasSize(2);
         assertThat(results.getContent().getFirst().getEventTitle()).contains("서울");
     }
@@ -80,10 +82,43 @@ class EventRepositoryTest {
     @Test
     @DisplayName("카테고리별 조회 테스트")
     void findByCategoryNo() {
+        var results = eventRepository.findByCategory_CategoryNo(categoryRepository.findByCategoryName("문화생활").getCategoryNo(), Pageable.ofSize(2));
+
+        assertThat(results.getTotalElements()).isEqualTo(2);
+
     }
 
     @Test
-    @DisplayName("행사 고유 번호 조회 테스트")
+    @DisplayName("존재하는 행사 고유 번호 조회 테스트")
     void findByEventNo() {
+
+        LocalGov localGov = new LocalGov("서울특별시");
+        localGovRepository.save(localGov);
+
+        Category category = new Category("문화행사");
+        categoryRepository.save(category);
+
+        Event event = new Event(localGov, category, "고메 잇 강남 서울야장2", "서울특별시",
+                LocalDate.of(2025, 8, 17), LocalDate.of(2025, 8, 31),
+                LocalTime.of(10, 0), LocalTime.of(23, 30),
+                "https://example.com", "서울 코엑스 동측광장", "코엑스", "관리자", "레트로 감성 행사");
+
+        eventRepository.save(event);
+
+
+        Optional<Event> found = eventRepository.findByEventNo(event.getEventNo());
+
+        assertThat(found).isPresent();
+        assertThat(found.get().getEventTitle()).isEqualTo("고메 잇 강남 서울야장2");
+        assertThat(found.get().getCategory().getCategoryName()).isEqualTo("문화행사");
+
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 행사 고유 번호 조회 테스트")
+    void existFindByEventNo(){
+        Optional<Event> result = eventRepository.findByEventNo(999L);
+
+        assertThat(result).isEmpty();
     }
 }

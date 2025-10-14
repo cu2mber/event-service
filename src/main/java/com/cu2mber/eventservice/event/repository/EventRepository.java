@@ -1,5 +1,6 @@
 package com.cu2mber.eventservice.event.repository;
 
+import com.cu2mber.eventservice.category.domain.Category;
 import com.cu2mber.eventservice.event.domain.Event;
 import lombok.NonNull;
 import org.springframework.data.domain.Page;
@@ -48,7 +49,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @param pageable   페이징 및 정렬 정보를 포함한 {@link Pageable} 객체
      * @return 해당 카테고리의 {@link Event} 목록이 포함된 {@link Page}
      */
-    Page<Event> findByCategoryNo(Long categoryNo, Pageable pageable);
+    Page<Event> findByCategory_CategoryNo(Long categoryNo, Pageable pageable);
 
     /**
      * 행사 고유 번호(eventNo)를 기준으로 단일 행사 정보를 조회합니다.
