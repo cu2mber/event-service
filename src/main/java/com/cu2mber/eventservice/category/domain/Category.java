@@ -1,12 +1,8 @@
 package com.cu2mber.eventservice.category.domain;
 
-import com.cu2mber.eventservice.event.domain.Event;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * {@code Category} 엔티티는 축제 카테고리(축제 성격)를 데이터베이스에 저장하기 위한 도메인 모델입니다.
