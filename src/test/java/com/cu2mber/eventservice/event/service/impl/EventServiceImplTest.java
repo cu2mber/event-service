@@ -10,7 +10,6 @@ import com.cu2mber.eventservice.localgov.domain.LocalGov;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -20,6 +19,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -28,10 +28,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("test")
 class EventServiceImplTest {
 
@@ -50,13 +50,17 @@ class EventServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        category = new Category("문화생활");
+        category = new Category("문화행사");
+        ReflectionTestUtils.setField(category, "categoryNo", 1L);
+
         localGov = new LocalGov("서울특별시");
 
         event = new Event(localGov, category, "진주유등축제","경상남도 진주시",
                 LocalDate.of(2025, 10, 1), LocalDate.of(2025, 10, 13),
                 LocalTime.of(10, 0), LocalTime.of(23, 0),
                 "https://example2.com", "남강둔치", "진주시청", "관리자", "진주의 대표 축제");
+
+        ReflectionTestUtils.setField(event, "eventNo", 1L);
     }
 
     @Test
@@ -64,9 +68,11 @@ class EventServiceImplTest {
     void getAllEvents() {
         Pageable pageable = PageRequest.of(0, 5);
         Page<Event> eventPage = new PageImpl<>(List.of(event));
-        when(eventRepository.findAll(pageable)).thenReturn(eventPage);
+        when(eventRepository.findAll(any(Pageable.class))).thenReturn(eventPage);
 
         Page<EventListResponse> result = eventService.getAllEvents(pageable);
+
+        verify(eventRepository, times(1)).findAll(any(Pageable.class));
 
         assertThat(result).isNotNull();
         assertThat(result.getTotalElements()).isEqualTo(1);
@@ -80,10 +86,12 @@ class EventServiceImplTest {
         Pageable pageable = PageRequest.of(0, 5);
         Page<Event> eventPage = new PageImpl<>(Collections.singletonList(event));
 
-        when(eventRepository.findByEventTitleContaining("유등", pageable))
+        when(eventRepository.findByEventTitleContaining(anyString(), any(Pageable.class)))
                 .thenReturn(eventPage);
 
         Page<EventListResponse> result = eventService.searchEventsByTitle("유등", pageable);
+
+        verify(eventRepository, times(1)).findByEventTitleContaining(anyString(), any(Pageable.class));
 
         assertThat(result).isNotNull();
         assertThat(result.getContent().getFirst().eventTitle()).contains("유등");
@@ -97,22 +105,27 @@ class EventServiceImplTest {
 
         Page<Event> eventPage = new PageImpl<>(Collections.singletonList(event));
 
-        when(categoryRepository.findByCategoryName("문화행사"))
+        when(categoryRepository.findByCategoryName(anyString()))
                 .thenReturn(category);
 
-        when(eventRepository.findByCategory_CategoryNo(1L, pageable))
+        when(eventRepository.findByCategory_CategoryNo(anyLong(), any(Pageable.class)))
                 .thenReturn(eventPage);
+
 
         Page<EventListResponse> result = eventService.getEventsByCategory("문화행사", pageable);
 
+        verify(categoryRepository, times(1)).findByCategoryName(anyString());
+        verify(eventRepository, times(1)).findByCategory_CategoryNo(anyLong(),any(Pageable.class));
+
+
         assertThat(result).isNotNull();
-        assertThat(result.getContent().getFirst().category()).isEqualTo("문화행사");
+        assertThat(result.getContent().getFirst().category().getCategoryName()).isEqualTo("문화행사");
     }
 
     @Test
     @DisplayName("단일 행사 상세 정보 조회")
     void getEventDetail() {
-        when(eventRepository.findByEventNo(1L)).thenReturn(Optional.of(event));
+        when(eventRepository.findByEventNo(anyLong())).thenReturn(Optional.of(event));
 
         EventDetailResponse result = eventService.getEventDetail(1L);
 
