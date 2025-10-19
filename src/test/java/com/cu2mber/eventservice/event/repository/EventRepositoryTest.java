@@ -14,12 +14,43 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.TestInstance;
+import org.springframework.test.context.ActiveProfiles; // @ActiveProfiles
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+/**
+ * {@code EventRepositoryTest} 클래스는 {@link EventRepository}의 JPA 쿼리 메서드 동작을 검증하기 위한 테스트 클래스입니다.
+ *
+ * <p>
+ *     이 테스트는 {@link DataJpaTest}를 사용하여 H2 인메모리 데이터베이스 환경에서
+ *     리포지토리 계층만 로드하고, 실제 DB 없이 CRUD 및 페이징, 검색 기능을 검증합니다.
+ *     {@link @TestInstance(TestInstance.Lifecycle.PER_CLASS)}를 통해 {@code @BeforeAll} 메서드에서
+ *     초기 데이터를 설정하고 모든 테스트에서 재사용합니다.</p>
+ *
+ * <p>
+ *     테스트 데이터로 {@link LocalGov}, {@link Category}, {@link Event} 엔티티를 저장하며,
+ *     각 테스트 메서드는 해당 데이터를 기반으로 쿼리 결과를 검증합니다.
+ * </p>
+ *
+ * <ul>
+ *   <li>{@link #findAll()} — 모든 행사를 페이지 단위로 조회하는 기능 검증</li>
+ *   <li>{@link #findByEventTitleContaining()} — 행사명에 특정 키워드가 포함된 이벤트 조회 기능 검증</li>
+ *   <li>{@link #findByCategoryNo()} — 카테고리별 행사 조회 기능 검증</li>
+ *   <li>{@link #findByEventNo()} — 존재하는 고유 번호로 단일 행사 조회 기능 검증</li>
+ *   <li>{@link #existFindByEventNo()} — 존재하지 않는 고유 번호로 조회 시 빈 결과 검증</li>
+ * </ul>
+ *
+ * <p>
+ *     {@link @ActiveProfiles("test")}를 사용하여 테스트 전용 프로파일을 적용하며,
+ *     페이징과 Optional 처리, 엔티티 관계 매핑 등을 포함한 리포지토리 동작을 통합적으로 검증합니다.
+ * </p>
+ */
+
 
 @DataJpaTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
