@@ -62,6 +62,8 @@ class EventControllerTest {
     private final LocalGov localGov = new LocalGov("서울특별시");
     private final Category category = new Category("문화행사");
 
+
+
     @Test
     @DisplayName("행사 목록 조회 요청시 200 응답")
     void getAllEvents() throws Exception{
@@ -95,8 +97,67 @@ class EventControllerTest {
     }
 
     @Test
+    @DisplayName("특정 키워드 포함된 행사 목록 조회")
+    void getSearchEventsByTitle() throws Exception {
+        EventListResponse mockResponse = new EventListResponse(
+                1L,
+                localGov,
+                category,
+                "테스트 행사",
+                "서울특별시",
+                LocalDate.now(),
+                LocalDate.now(),
+                LocalTime.of(10,0),
+                LocalTime.of(11, 0),
+                "테스트 문의"
+        );
+        Page<EventListResponse> mockPage = new PageImpl<>(List.of(mockResponse));
+
+        when(eventService.searchEventsByTitle(anyString(), any(Pageable.class)))
+                .thenReturn(mockPage);
+
+        mockMvc.perform(get("/events/search")
+                        .param("keyword", "행사")
+                        .param("page", "0")
+                        .param("size", "5"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].eventNo").value(1))
+                .andExpect(jsonPath("$.content[0].eventTitle").value("테스트 행사"));
+
+    }
+
+    @Test
+    @DisplayName("특정 카테고리 행사 목록 조회")
+    void getEventsByCategory() throws Exception {
+        EventListResponse mockResponse = new EventListResponse(
+                1L,
+                localGov,
+                category,
+                "테스트 행사",
+                "서울특별시",
+                LocalDate.now(),
+                LocalDate.now(),
+                LocalTime.of(10,0),
+                LocalTime.of(11, 0),
+                "테스트 문의"
+        );
+        Page<EventListResponse> mockPage = new PageImpl<>(List.of(mockResponse));
+
+        when(eventService.getEventsByCategory(anyString(), any(Pageable.class)))
+                .thenReturn(mockPage);
+
+        mockMvc.perform(get("/events/category/문화행사")
+                .param("page", "0")
+                .param("size", "5"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].eventNo").value(1))
+                .andExpect(jsonPath("$.content[0].category.categoryName").value("문화행사"));
+
+    }
+
+    @Test
     @DisplayName("특정 행사 하나를 조회")
-    void getEventDetail() throws Exception{
+    void getEventDetail() throws Exception {
         EventDetailResponse mockResponse = new EventDetailResponse(1L,
                 localGov,
                 category,

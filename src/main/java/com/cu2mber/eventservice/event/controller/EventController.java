@@ -8,10 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/events")
@@ -30,6 +27,32 @@ public class EventController {
     @GetMapping
     public ResponseEntity<Page<EventListResponse>> getAllEvents(Pageable pageable) {
         return ResponseEntity.ok(eventService.getAllEvents(pageable));
+    }
+
+    /**
+     * 행사 제목에 특정 키워드가 포함된 행사 목록을 페이지 단위로 조회합니다.
+     *
+     * @param keyword
+     * @param pageable
+     * @return {@link ResponseEntity} 형태의 응답 본문으로,
+     *         {@link EventListResponse} 목록이 포함된 {@link Page} 객체를 반환합니다.
+     */
+    @GetMapping("/search")
+    public ResponseEntity<Page<EventListResponse>> getSearchEventsByTitle(@RequestParam String keyword, Pageable pageable){
+        return ResponseEntity.ok(eventService.searchEventsByTitle(keyword, pageable));
+    }
+
+    /**
+     * 특정 카테고리에 속한 행사 목록을 페이지 단위로 조회합니다.
+     *
+     * @param categoryName
+     * @param pageable
+     * @return {@link ResponseEntity} 형태의 응답 본문으로,
+     *         {@link EventListResponse} 목록이 포함된 {@link Page} 객체를 반환합니다.
+     */
+    @GetMapping("/category/{category-name}")
+    public ResponseEntity<Page<EventListResponse>> getEventsByCategory(@PathVariable("category-name") String categoryName, Pageable pageable){
+        return ResponseEntity.ok(eventService.getEventsByCategory(categoryName, pageable));
     }
 
     /**
