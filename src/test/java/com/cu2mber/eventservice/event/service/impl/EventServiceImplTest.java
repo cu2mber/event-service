@@ -126,21 +126,22 @@ class EventServiceImplTest {
 
         Page<Event> eventPage = new PageImpl<>(Collections.singletonList(event));
 
-        when(categoryRepository.findByCategoryName(anyString()))
-                .thenReturn(category);
+        when(categoryRepository.findById(anyLong()))
+                .thenReturn(Optional.ofNullable(category));
 
         when(eventRepository.findByCategory_CategoryNo(anyLong(), any(Pageable.class)))
                 .thenReturn(eventPage);
 
 
-        Page<EventListResponse> result = eventService.getEventsByCategory("문화행사", pageable);
+        Page<EventListResponse> result = eventService.getEventsByCategory(1L, pageable);
 
-        verify(categoryRepository, times(1)).findByCategoryName(anyString());
+        verify(categoryRepository, times(1)).findById(anyLong());
         verify(eventRepository, times(1)).findByCategory_CategoryNo(anyLong(),any(Pageable.class));
 
-
         assertThat(result).isNotNull();
+        assertThat(result.getContent().getFirst().category().getCategoryNo()).isEqualTo(1L);
         assertThat(result.getContent().getFirst().category().getCategoryName()).isEqualTo("문화행사");
+
     }
 
     @Test

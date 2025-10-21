@@ -72,6 +72,7 @@ class EventControllerTest {
                 localGov,
                 category,
                 "테스트 행사",
+                "테스트 행사 설명",
                 "서울특별시",
                 LocalDate.now(),
                 LocalDate.now(),
@@ -104,6 +105,7 @@ class EventControllerTest {
                 localGov,
                 category,
                 "테스트 행사",
+                "테스트 행사 설명",
                 "서울특별시",
                 LocalDate.now(),
                 LocalDate.now(),
@@ -134,6 +136,7 @@ class EventControllerTest {
                 localGov,
                 category,
                 "테스트 행사",
+                "테스트 행사 설명",
                 "서울특별시",
                 LocalDate.now(),
                 LocalDate.now(),
@@ -143,7 +146,7 @@ class EventControllerTest {
         );
         Page<EventListResponse> mockPage = new PageImpl<>(List.of(mockResponse));
 
-        when(eventService.getEventsByCategory(anyString(), any(Pageable.class)))
+        when(eventService.getEventsByCategory(anyLong(), any(Pageable.class)))
                 .thenReturn(mockPage);
 
         mockMvc.perform(get("/events/category/문화행사")
@@ -170,7 +173,7 @@ class EventControllerTest {
                 "테스트 장소",
                 "테스트 주최기관",
                 "테스트 문의",
-                "설명"
+                "테스트 행사 설명"
         );
 
         when(eventService.getEventDetail(anyLong()))

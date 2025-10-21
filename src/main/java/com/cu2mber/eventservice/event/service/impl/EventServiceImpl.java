@@ -16,6 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 /**
  * {@link EventService} 구현체입니다.
  * <p>
@@ -71,12 +73,16 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Page<EventListResponse> getEventsByCategory(String categoryName, Pageable pageable) {
-        Category category = categoryRepository.findByCategoryName(categoryName);
+    public Page<EventListResponse> getEventsByCategory(Long categoryNo, Pageable pageable) {
+        Optional<Category> category = categoryRepository.findById(categoryNo);
 
-        log.info("[getEventsByCategory] 특정 카테고리 검색 : {}", category);
+        if(category.isPresent()){
+            log.info("[getEventsByCategory] 특정 카테고리 검색 : {}", category);
+        } else {
+            log.error("[getEventsByCategory] 특정 카테고리 검색 실패");
+        }
 
-        Page<EventListResponse> results = eventRepository.findByCategory_CategoryNo(category.getCategoryNo(), pageable)
+        Page<EventListResponse> results = eventRepository.findByCategory_CategoryNo(category.get().getCategoryNo(), pageable)
                 .map(EventListResponse::from);
 
         log.info("[getEventsByCategory] 조회된 행사 개수: {}", results.getTotalElements());

@@ -4,7 +4,6 @@ import com.cu2mber.eventservice.event.dto.EventDetailResponse;
 import com.cu2mber.eventservice.event.dto.EventListResponse;
 import com.cu2mber.eventservice.event.service.EventService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -45,14 +44,14 @@ public class EventController {
     /**
      * 특정 카테고리에 속한 행사 목록을 페이지 단위로 조회합니다.
      *
-     * @param categoryName
+     * @param categoryNo
      * @param pageable
      * @return {@link ResponseEntity} 형태의 응답 본문으로,
      *         {@link EventListResponse} 목록이 포함된 {@link Page} 객체를 반환합니다.
      */
-    @GetMapping("/category/{category-name}")
-    public ResponseEntity<Page<EventListResponse>> getEventsByCategory(@PathVariable("category-name") String categoryName, Pageable pageable){
-        return ResponseEntity.ok(eventService.getEventsByCategory(categoryName, pageable));
+    @GetMapping("/categories/{category-no}")
+    public ResponseEntity<Page<EventListResponse>> getEventsByCategory(@PathVariable("category-no") Long categoryNo, Pageable pageable){
+        return ResponseEntity.ok(eventService.getEventsByCategory(categoryNo, pageable));
     }
 
     /**
@@ -67,7 +66,5 @@ public class EventController {
 
         return ResponseEntity.ok(response);
     }
-
-
 
 }
