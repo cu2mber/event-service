@@ -33,8 +33,8 @@ import java.time.LocalTime;
  */
 public record EventListResponse(
         Long eventNo,
-        LocalGov local,
-        Category category,
+        Short localNo,
+        Long categoryNo,
         String eventTitle,
         String eventDescription,
         String eventAddress,
@@ -64,8 +64,8 @@ public record EventListResponse(
     public static EventListResponse from(Event event) {
         return new EventListResponse(
                 event.getEventNo(),
-                event.getLocalGov(),
-                event.getCategory(),
+                event.getLocalGov().getLocalNo(),
+                event.getCategory().getCategoryNo(),
                 event.getEventTitle(),
                 event.getEventDescription(),
                 event.getEventAddress(),

@@ -1,6 +1,7 @@
 package com.cu2mber.eventservice.localgov.domain;
 
 import com.cu2mber.eventservice.event.domain.Event;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.cglib.core.Local;
@@ -34,6 +35,7 @@ public class LocalGov {
     private String localEmail;
 
     @OneToMany(mappedBy = "localGov", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Event> events = new ArrayList<>();
 
     public LocalGov(@NonNull String localDistrict, String localName, String localContact, String localEmail){

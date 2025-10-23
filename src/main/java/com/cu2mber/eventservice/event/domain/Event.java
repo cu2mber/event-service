@@ -2,6 +2,7 @@ package com.cu2mber.eventservice.event.domain;
 
 import com.cu2mber.eventservice.category.domain.Category;
 import com.cu2mber.eventservice.localgov.domain.LocalGov;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,7 @@ public class Event {
     private Long eventNo; // bigint
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name = "local_no", nullable = false)
     private LocalGov localGov; // smallint
 

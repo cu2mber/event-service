@@ -5,6 +5,7 @@ import com.cu2mber.eventservice.event.domain.Event;
 import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,6 +28,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @return {@link Event} 엔티티 목록이 포함된 {@link Page}
      */
     @NonNull
+    @EntityGraph(attributePaths = {"localGov", "category"})
     Page<Event> findAll(@NonNull Pageable pageable);
 
     /**
