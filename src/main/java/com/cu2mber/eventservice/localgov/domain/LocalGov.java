@@ -4,7 +4,6 @@ import com.cu2mber.eventservice.event.domain.Event;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.cglib.core.Local;
 
 import java.util.ArrayList;
 import java.util.List;

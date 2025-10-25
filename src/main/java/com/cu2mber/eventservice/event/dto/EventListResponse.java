@@ -30,6 +30,7 @@ import java.time.LocalTime;
  * @see #from(Event)
  */
 public record EventListResponse(
+        Long eventNo,
         String eventTitle,
         String eventDescription,
         String eventAddress,
@@ -58,6 +59,7 @@ public record EventListResponse(
      */
     public static EventListResponse from(Event event) {
         return new EventListResponse(
+                event.getEventNo(),
                 event.getEventTitle(),
                 event.getEventDescription(),
                 event.getEventAddress(),
