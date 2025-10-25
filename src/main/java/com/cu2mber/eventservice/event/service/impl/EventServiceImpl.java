@@ -37,7 +37,9 @@ public class EventServiceImpl implements EventService {
     /**
      * 전체 행사 목록을 페이지 단위로 조회합니다.
      * <p>
-     * 한 페이지당 5개의 행사를 반환합니다.
+     *     프론트엔드에서 전달된 페이지 번호(page)와 페이지 크기(size)를 기반으로
+     *     최신순으로 정렬된 행사 목록을 반환합니다.
+     *     정렬 기준은 해당 서비스에서 event_no 내림차순으로 고정됩니다.
      * </p>
      *
      * @param pageable 요청된 페이징 정보
@@ -45,13 +47,10 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public Page<EventListResponse> getAllEvents(Pageable pageable) {
+
         log.info("[getAllEvents] 전체 행사 목록 조회 요청 - page: {}", pageable.getPageNumber());
 
-        // 최신 등록순(최근 크롤링된 순) 정렬
-        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
-
-        // 한 페이지당 5개씩 고정 및 최신순 정렬
-        Pageable fixedPageable = PageRequest.of(pageable.getPageNumber(), 5, sort);
+        Pageable fixedPageable = createPageable(pageable);
 
         Page<EventListResponse> events = eventRepository.findAll(fixedPageable)
                 .map(EventListResponse::from);
@@ -63,9 +62,12 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Page<EventListResponse> searchEventsByTitle(String keyword, Pageable pageable) {
+
         log.info("[searchEventsByTitle] 키워드 검색 요청 - keyword: {}", keyword);
 
-        Page<EventListResponse> results = eventRepository.findByEventTitleContaining(keyword, pageable)
+        Pageable fixedPageable = createPageable(pageable);
+
+        Page<EventListResponse> results = eventRepository.findByEventTitleContaining(keyword, fixedPageable)
                 .map(EventListResponse::from);
 
         log.info("[searchEventsByTitle] 검색 결과 개수 : {}", results.getTotalElements());
@@ -74,6 +76,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Page<EventListResponse> getEventsByCategory(Long categoryNo, Pageable pageable) {
+
         Optional<Category> category = categoryRepository.findById(categoryNo);
 
         if(category.isPresent()){
@@ -82,7 +85,9 @@ public class EventServiceImpl implements EventService {
             log.error("[getEventsByCategory] 특정 카테고리 검색 실패");
         }
 
-        Page<EventListResponse> results = eventRepository.findByCategory_CategoryNo(category.get().getCategoryNo(), pageable)
+        Pageable fixedPageable = createPageable(pageable);
+
+        Page<EventListResponse> results = eventRepository.findByCategory_CategoryNo(category.get().getCategoryNo(), fixedPageable)
                 .map(EventListResponse::from);
 
         log.info("[getEventsByCategory] 조회된 행사 개수: {}", results.getTotalElements());
@@ -102,5 +107,18 @@ public class EventServiceImpl implements EventService {
 
         log.info("[getEventDetail] 행사 상세 조회 성공 - eventNo: {}", eventNo);
         return response;
+    }
+
+    /**
+     * 프론트에서 전달된 page와 size를 기반으로
+     * 최신 등록순(createdAt DESC) 정렬된 Pageable 객체를 생성합니다.
+     */
+    private Pageable createPageable(Pageable pageable) {
+        int page = pageable.getPageNumber();
+        int size = pageable.getPageSize();
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdAt"); // 최신순 고정
+
+        return PageRequest.of(page, size, sort);
     }
 }

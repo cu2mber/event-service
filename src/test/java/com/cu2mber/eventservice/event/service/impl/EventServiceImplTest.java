@@ -139,8 +139,7 @@ class EventServiceImplTest {
         verify(eventRepository, times(1)).findByCategory_CategoryNo(anyLong(),any(Pageable.class));
 
         assertThat(result).isNotNull();
-        assertThat(result.getContent().getFirst().category().getCategoryNo()).isEqualTo(1L);
-        assertThat(result.getContent().getFirst().category().getCategoryName()).isEqualTo("문화행사");
+        assertThat(result.getContent().getFirst().eventTitle()).isEqualTo("진주유등축제");
 
     }
 
@@ -152,7 +151,6 @@ class EventServiceImplTest {
         EventDetailResponse result = eventService.getEventDetail(1L);
 
         assertThat(result).isNotNull();
-        assertThat(result.eventNo()).isEqualTo(1L);
         assertThat(result.eventTitle()).contains("유등");
 
     }

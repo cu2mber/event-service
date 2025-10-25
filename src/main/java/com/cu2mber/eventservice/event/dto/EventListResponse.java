@@ -1,8 +1,6 @@
 package com.cu2mber.eventservice.event.dto;
 
-import com.cu2mber.eventservice.category.domain.Category;
 import com.cu2mber.eventservice.event.domain.Event;
-import com.cu2mber.eventservice.localgov.domain.LocalGov;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -32,9 +30,6 @@ import java.time.LocalTime;
  * @see #from(Event)
  */
 public record EventListResponse(
-        Long eventNo,
-        Short localNo,
-        Long categoryNo,
         String eventTitle,
         String eventDescription,
         String eventAddress,
@@ -63,9 +58,6 @@ public record EventListResponse(
      */
     public static EventListResponse from(Event event) {
         return new EventListResponse(
-                event.getEventNo(),
-                event.getLocalGov().getLocalNo(),
-                event.getCategory().getCategoryNo(),
                 event.getEventTitle(),
                 event.getEventDescription(),
                 event.getEventAddress(),

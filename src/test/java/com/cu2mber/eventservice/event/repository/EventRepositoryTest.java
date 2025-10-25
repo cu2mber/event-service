@@ -66,10 +66,13 @@ class EventRepositoryTest {
     @Autowired
     private LocalGovRepository localGovRepository;
 
+    private Category category1;
+    private Category category2;
+
     @BeforeAll
     void setUpOnce() {
-        Category category1 = categoryRepository.save(new Category("문화생활"));
-        Category category2 = categoryRepository.save(new Category("체험"));
+        category1 = categoryRepository.save(new Category("문화생활"));
+        category2 = categoryRepository.save(new Category("체험"));
 
         LocalGov localGov1 = localGovRepository.save(new LocalGov("서울특별시"));
         LocalGov localGov2 = localGovRepository.save(new LocalGov("경상남도", "진주시", "055-111-1111", "jinju@jinju.com"));
@@ -113,7 +116,11 @@ class EventRepositoryTest {
     @Test
     @DisplayName("카테고리별 조회 테스트")
     void findByCategoryNo() {
-        var results = eventRepository.findByCategory_CategoryNo(categoryRepository.findByCategoryName("문화생활").getCategoryNo(), Pageable.ofSize(2));
+        Long categoryNo = categoryRepository.findById(category1.getCategoryNo())
+                .orElseThrow(() -> new IllegalArgumentException("카테고리 없음"))
+                .getCategoryNo();
+
+        var results = eventRepository.findByCategory_CategoryNo(categoryNo, Pageable.ofSize(2));
 
         assertThat(results.getTotalElements()).isEqualTo(2);
 
