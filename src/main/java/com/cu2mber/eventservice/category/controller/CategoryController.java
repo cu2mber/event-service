@@ -1,5 +1,6 @@
 package com.cu2mber.eventservice.category.controller;
 
+import com.cu2mber.eventservice.category.controller.specification.CategoryApiSepcification;
 import com.cu2mber.eventservice.category.dto.CategoryResponse;
 import com.cu2mber.eventservice.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/events/categories")
 @RequiredArgsConstructor
-public class CategoryController {
+public class CategoryController implements CategoryApiSepcification {
 
     private final CategoryService categoryService;
 

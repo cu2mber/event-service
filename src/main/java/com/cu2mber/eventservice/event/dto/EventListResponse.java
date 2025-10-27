@@ -1,6 +1,7 @@
 package com.cu2mber.eventservice.event.dto;
 
 import com.cu2mber.eventservice.event.domain.Event;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -30,14 +31,23 @@ import java.time.LocalTime;
  * @see #from(Event)
  */
 public record EventListResponse(
+        @Schema(name = "행사번호")
         Long eventNo,
+        @Schema(name = "축제이름")
         String eventTitle,
+        @Schema(name = "축제설명")
         String eventDescription,
+        @Schema(name = "개최지역")
         String eventAddress,
+        @Schema(name = "개최시작일자")
         LocalDate eventStartDate,
+        @Schema(name = "개최종료일자")
         LocalDate eventEndDate,
+        @Schema(name = "운영시작시간")
         LocalTime eventStartTime,
+        @Schema(name = "운영종료시간")
         LocalTime eventEndTime,
+        @Schema(name = "문의")
         String eventInquiry
 ) {
 

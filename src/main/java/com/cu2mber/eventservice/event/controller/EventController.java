@@ -1,5 +1,6 @@
 package com.cu2mber.eventservice.event.controller;
 
+import com.cu2mber.eventservice.event.controller.specification.EventApiSpecification;
 import com.cu2mber.eventservice.event.dto.EventDetailResponse;
 import com.cu2mber.eventservice.event.dto.EventListResponse;
 import com.cu2mber.eventservice.event.service.EventService;
@@ -38,7 +39,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/events")
 @RequiredArgsConstructor
-public class EventController {
+public class EventController implements EventApiSpecification {
 
     private final EventService eventService;
 

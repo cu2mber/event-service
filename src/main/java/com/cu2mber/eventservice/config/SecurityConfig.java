@@ -46,7 +46,9 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                        // Swagger 관련 경로 허용
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().denyAll()
                 )
                 .build();

@@ -2,6 +2,7 @@ package com.cu2mber.eventservice.category.dto;
 
 
 import com.cu2mber.eventservice.category.domain.Category;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * {@code CategoryResponse} 레코드는 단일 행사 카테고리 정보를 클라이언트에 전달하기 위한 DTO(Data Transfer Object)입니다.
@@ -25,7 +26,9 @@ import com.cu2mber.eventservice.category.domain.Category;
  * </p>
  */
 public record CategoryResponse(
+    @Schema(name = "카테고리 번호")
     Long categoryNo,
+    @Schema(name = "카테고리 이름")
     String categoryName
 ){
     public static CategoryResponse from(Category category){
