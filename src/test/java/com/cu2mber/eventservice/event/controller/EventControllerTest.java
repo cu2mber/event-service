@@ -67,6 +67,7 @@ class EventControllerTest {
     @BeforeEach
     void setUp() {
         EventListResponse mockResponse = new EventListResponse(
+                1L,
                 "테스트 행사",
                 "테스트 행사 설명",
                 "서울특별시",

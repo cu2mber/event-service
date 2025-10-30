@@ -1,6 +1,5 @@
 package com.cu2mber.eventservice.event.repository;
 
-import com.cu2mber.eventservice.category.domain.Category;
 import com.cu2mber.eventservice.event.domain.Event;
 import lombok.NonNull;
 import org.springframework.data.domain.Page;

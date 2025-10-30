@@ -116,9 +116,7 @@ class EventRepositoryTest {
     @Test
     @DisplayName("카테고리별 조회 테스트")
     void findByCategoryNo() {
-        Long categoryNo = categoryRepository.findById(category1.getCategoryNo())
-                .orElseThrow(() -> new IllegalArgumentException("카테고리 없음"))
-                .getCategoryNo();
+        Long categoryNo = category1.getCategoryNo();
 
         var results = eventRepository.findByCategory_CategoryNo(categoryNo, Pageable.ofSize(2));
 
