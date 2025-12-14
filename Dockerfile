@@ -1,4 +1,4 @@
-FROM --platform=linux/arm64 eclipse-temurin:21-jdk AS builder
+FROM --platform=linux/arm64 maven:3.9.5-eclipse-temurin-21-alpine AS builder
 LABEL authors="yeong"
 ARG JAR_FILE=event-service.jar
 
