@@ -18,5 +18,5 @@ jobs:
   build:
     uses: cu2mber/cu2mber-common-infra/.github/workflows/reusable-docker-publish.yml@main
     with:
-      image-name: event-crawler
+      image-name: event-service
       use-github-token: true
