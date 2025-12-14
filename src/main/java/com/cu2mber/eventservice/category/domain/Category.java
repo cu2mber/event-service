@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "events_categories")
+@Table(name = "events_categories", catalog = "event")
 public class Category {
 
     @Id

@@ -75,23 +75,26 @@ class EventRepositoryTest {
         category2 = categoryRepository.save(new Category("체험"));
 
         LocalGov localGov1 = localGovRepository.save(new LocalGov("서울특별시"));
-        LocalGov localGov2 = localGovRepository.save(new LocalGov("경상남도", "진주시", "055-111-1111", "jinju@jinju.com"));
+        LocalGov localGov2 = localGovRepository.save(new LocalGov("경상남도", "진주시"));
 
         eventRepository.save(new Event(localGov1, category1, "고메 잇 강남 서울야장", "서울특별시",
                 LocalDate.of(2025, 8, 17), LocalDate.of(2025, 8, 31),
                 LocalTime.of(10, 0), LocalTime.of(23, 30),
-                "https://example.com", "서울 코엑스 동측광장", "코엑스", "관리자", "레트로 감성 행사"));
+                "https://example.com", "서울 코엑스 동측광장", "코엑스", "관리자", "레트로 감성 행사",
+                "https://www.mcst.go.kr/attachFiles/cultureInfoCourt/localFestival/notifyFestival/1764288589620.jpg"));
 
         eventRepository.save(new Event(localGov2, category2, "진주유등축제", "경상남도 진주시",
                 LocalDate.of(2025, 10, 1), LocalDate.of(2025, 10, 13),
                 LocalTime.of(10, 0), LocalTime.of(23, 0),
-                "https://example2.com", "남강둔치", "진주시청", "관리자", "진주의 대표 축제"));
+                "https://example2.com", "남강둔치", "진주시청", "관리자", "진주의 대표 축제",
+                "https://www.mcst.go.kr/attachFiles/cultureInfoCourt/localFestival/notifyFestival/1764288589620.jpg"));
 
         eventRepository.save(new Event(localGov1, category1, "서울 불꽃축제", "서울특별시 여의도 한강공원2", LocalDate.of(2025, 10, 5), LocalDate.of(2025, 10, 5),
                 LocalTime.of(19, 0),LocalTime.of(21, 0),
                 "https://hanwhafireworks.co.kr/",
                 "여의도 한강공원", "한화그룹2", "02-789-1234",
-                "한강 위에서 펼쳐지는 대규모 불꽃쇼로, 서울의 가을을 대표하는 축제이다."));
+                "한강 위에서 펼쳐지는 대규모 불꽃쇼로, 서울의 가을을 대표하는 축제이다.",
+                "https://www.mcst.go.kr/attachFiles/cultureInfoCourt/localFestival/notifyFestival/1764288589620.jpg"));
     }
 
     @Test
@@ -137,7 +140,8 @@ class EventRepositoryTest {
         Event event = new Event(localGov, category, "고메 잇 강남 서울야장2", "서울특별시",
                 LocalDate.of(2025, 8, 17), LocalDate.of(2025, 8, 31),
                 LocalTime.of(10, 0), LocalTime.of(23, 30),
-                "https://example.com", "서울 코엑스 동측광장", "코엑스", "관리자", "레트로 감성 행사");
+                "https://example.com", "서울 코엑스 동측광장", "코엑스", "관리자", "레트로 감성 행사",
+                "https://www.mcst.go.kr/attachFiles/cultureInfoCourt/localFestival/notifyFestival/1764288589620.jpg");
 
         eventRepository.save(event);
 

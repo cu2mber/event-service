@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "local_govs")
+@Table(name = "local_govs", catalog = "localgov")
 public class LocalGov {
 
     @Id
@@ -27,21 +27,14 @@ public class LocalGov {
     @Column(length = 50)
     private String localName;
 
-    @Column(length = 15)
-    private String localContact;
-
-    @Column(length = 50)
-    private String localEmail;
 
     @OneToMany(mappedBy = "localGov", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Event> events = new ArrayList<>();
 
-    public LocalGov(@NonNull String localDistrict, String localName, String localContact, String localEmail){
+    public LocalGov(@NonNull String localDistrict, String localName){
         this.localDistrict = localDistrict;
         this.localName = localName;
-        this.localContact = localContact;
-        this.localEmail = localEmail;
     }
 
 

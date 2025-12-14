@@ -79,7 +79,8 @@ class EventServiceImplTest {
         event = new Event(localGov, category, "진주유등축제","경상남도 진주시",
                 LocalDate.of(2025, 10, 1), LocalDate.of(2025, 10, 13),
                 LocalTime.of(10, 0), LocalTime.of(23, 0),
-                "https://example2.com", "남강둔치", "진주시청", "관리자", "진주의 대표 축제");
+                "https://example2.com", "남강둔치", "진주시청", "관리자", "진주의 대표 축제",
+                "https://www.mcst.go.kr/attachFiles/cultureInfoCourt/localFestival/notifyFestival/1764288589620.jpg");
 
         ReflectionTestUtils.setField(event, "eventNo", 1L);
     }

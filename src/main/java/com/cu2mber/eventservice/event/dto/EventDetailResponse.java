@@ -46,7 +46,9 @@ public record EventDetailResponse(
         @Schema(name = "문의")
         String eventInquiry,
         @Schema(name = "축제설명")
-        String eventDescription
+        String eventDescription,
+        @Schema(name = "축제이미지")
+        String eventImageUrl
 ) {
     public static EventDetailResponse from(Event event) {
         return new EventDetailResponse(
@@ -62,7 +64,8 @@ public record EventDetailResponse(
                 event.getEventSpot(),
                 event.getEventHost(),
                 event.getEventInquiry(),
-                event.getEventDescription()
+                event.getEventDescription(),
+                event.getEventImageUrl()
         );
     }
 }

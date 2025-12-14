@@ -48,7 +48,10 @@ public record EventListResponse(
         @Schema(name = "운영종료시간")
         LocalTime eventEndTime,
         @Schema(name = "문의")
-        String eventInquiry
+        String eventInquiry,
+        @Schema(name = "축제이미지")
+        String eventImageUrl
+
 ) {
 
     /**
@@ -77,7 +80,8 @@ public record EventListResponse(
                 event.getEventEndDate(),
                 event.getEventStartTime(),
                 event.getEventEndTime(),
-                event.getEventInquiry()
+                event.getEventInquiry(),
+                event.getEventImageUrl()
         );
     }
 }

@@ -75,7 +75,8 @@ class EventControllerTest {
                 LocalDate.now(),
                 LocalTime.of(10, 0),
                 LocalTime.of(11, 0),
-                "테스트 문의"
+                "테스트 문의",
+                "https://www.mcst.go.kr/attachFiles/cultureInfoCourt/localFestival/notifyFestival/1764288589620.jpg"
         );
 
         mockDetailResponse = new EventDetailResponse(
@@ -91,7 +92,8 @@ class EventControllerTest {
                 "테스트 장소",
                 "테스트 주최기관",
                 "테스트 문의",
-                "테스트 행사 설명"
+                "테스트 행사 설명",
+                "https://www.mcst.go.kr/attachFiles/cultureInfoCourt/localFestival/notifyFestival/1764288589620.jpg"
         );
 
         mockPage = new PageImpl<>(List.of(mockResponse));

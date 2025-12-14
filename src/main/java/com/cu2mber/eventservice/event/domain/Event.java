@@ -26,7 +26,8 @@ import java.time.LocalTime;
 @Entity
 @NoArgsConstructor
 @Table(name = "events",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"event_no", "local_no", "category_no"}))
+        uniqueConstraints = @UniqueConstraint(columnNames = {"event_no", "local_no", "category_no"}),
+        catalog = "event")
 public class Event {
 
     @Id
@@ -71,6 +72,9 @@ public class Event {
     @Column(columnDefinition = "TEXT")
     private String eventDescription;
 
+    @Column(columnDefinition = "TEXT")
+    private String eventImageUrl;
+
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -79,7 +83,7 @@ public class Event {
                  String eventAddress, LocalDate eventStartDate, LocalDate eventEndDate,
                  LocalTime eventStartTime, LocalTime eventEndTime, String eventUrl,
                  String eventSpot, String eventHost,
-                 String eventInquiry, String eventDescription) {
+                 String eventInquiry, String eventDescription, String eventImageUrl) {
         this.localGov = localGov;
         this.category = category;
         this.eventTitle = eventTitle;
@@ -93,6 +97,7 @@ public class Event {
         this.eventHost = eventHost;
         this.eventInquiry = eventInquiry;
         this.eventDescription = eventDescription;
+        this.eventImageUrl = eventImageUrl;
     }
 
 }
